@@ -11,7 +11,7 @@ interface ExtendedRequest extends Request {
 class BrandController {
   async getBrands(req: Request, res: Response) {
     const brands = await Brand.findAll();
-    return res.status(200).json({ message: 'Success!', brands });
+    return res.status(200).json({ message: 'Success!', payload: brands });
   }
 
   async postBrand(req: ExtendedRequest, res: Response, next: NextFunction) {
@@ -22,7 +22,9 @@ class BrandController {
     }
 
     const brand = await Brand.create({ name });
-    return res.status(201).json({ message: 'Brand creation success!', brand });
+    return res
+      .status(201)
+      .json({ message: 'Brand creation success!', payload: brand });
   }
 }
 

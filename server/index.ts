@@ -4,7 +4,7 @@ import sequelize from './db';
 import * as models from './models/models';
 import cors from 'cors';
 import router from './routes';
-import errorHandler from './middleware/ErrorHandler';
+import errorHandler from './middleware/errorHandlerMiddleware';
 import fileUpload from 'express-fileupload';
 import path from 'path';
 

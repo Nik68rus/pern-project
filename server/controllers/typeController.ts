@@ -11,7 +11,7 @@ interface ExtendedRequest extends Request {
 class TypeController {
   async getTypes(req: Request, res: Response) {
     const types = await Type.findAll();
-    return res.status(200).json({ message: 'Success!', types });
+    return res.status(200).json({ message: 'Success!', payload: types });
   }
 
   async postType(req: ExtendedRequest, res: Response, next: NextFunction) {
@@ -22,7 +22,9 @@ class TypeController {
     }
 
     const type = await Type.create({ name });
-    return res.status(201).json({ message: 'Type creation success!', type });
+    return res
+      .status(201)
+      .json({ message: 'Type creation success!', payload: type });
   }
 }
 

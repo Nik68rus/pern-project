@@ -7,6 +7,7 @@ declare global {
       readonly DB_PASSWORD: string;
       readonly DB_HOST: string;
       readonly DB_PORT: string;
+      readonly JWT_SECRET: string;
     }
   }
 }

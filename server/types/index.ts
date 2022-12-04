@@ -1,11 +1,13 @@
-export interface DeviceInstance {
+import { Request } from 'express';
+
+interface JWTUser {
   id: number;
-  name: string;
-  price: number;
-  rating: number;
-  img: string;
-  typeId: number;
-  brandId: number;
-  createdAt: Date;
-  updatedAt: Date;
+  email: string;
+  role: 'ADMIN' | 'USER';
+  iat: Date;
+  exp: Date;
+}
+
+export interface ExtendedRequest extends Request {
+  user?: JWTUser;
 }
