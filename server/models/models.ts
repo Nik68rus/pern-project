@@ -9,13 +9,14 @@ import {
   ForeignKey,
   NonAttribute,
 } from 'sequelize';
+import { UserRole } from '../types';
 
 interface User
   extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   id: CreationOptional<number>;
   email: string;
   password: string;
-  role: 'USER' | 'ADMIN';
+  role: UserRole;
   // createdAt: CreationOptional<Date>;
   // updatedAt: CreationOptional<Date>;
 }

@@ -5,13 +5,13 @@ import jwt from 'jsonwebtoken';
 import { isEmail } from '../helpers/validation';
 import { Cart, User } from '../models/models';
 import { handleError } from '../helpers/controllers';
-import { ExtendedRequest } from '../types';
+import { ExtendedRequest, UserRole } from '../types';
 
 interface SignupRequest extends Request {
   body: {
     email: string;
     password: string;
-    role?: 'USER' | 'ADMIN';
+    role?: UserRole;
   };
 }
 

@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import ApiError from '../error/apiError';
+import { UserRole } from '../types';
 
 interface JWTUser {
   id: number;
   email: string;
-  role: 'ADMIN' | 'USER';
+  role: UserRole;
   iat: Date;
   exp: Date;
 }
