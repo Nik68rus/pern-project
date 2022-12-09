@@ -3,11 +3,23 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Context } from '../App';
 import { RoutePath } from '../types/routes';
 
-function PrivateRoute() {
+interface Props {
+  access?: string;
+}
+
+function PrivateRoute({ access }: Props) {
   const { user } = useContext(Context);
   const loggedIn = user.isAuth;
 
-  return loggedIn ? <Outlet /> : <Navigate to={RoutePath.LOGIN} />;
+  if (!loggedIn) {
+    return <Navigate to={RoutePath.LOGIN} />;
+  } else if (!access) {
+    return <Outlet />;
+  } else if (access === 'admin' && user.user && user.user.role === 'ADMIN') {
+    return <Outlet />;
+  } else {
+    return <Navigate to={RoutePath.HOME} />;
+  }
 }
 
 export default PrivateRoute;

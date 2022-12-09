@@ -12,7 +12,7 @@ import PrivateRoute from './PrivateRoute';
 function AppRouter() {
   return (
     <Routes>
-      <Route path={RoutePath.ADMIN} element={<PrivateRoute />}>
+      <Route path={RoutePath.ADMIN} element={<PrivateRoute access="admin" />}>
         <Route path={RoutePath.ADMIN} element={<Admin />} />
       </Route>
       <Route path={RoutePath.CART} element={<PrivateRoute />}>

@@ -28,7 +28,7 @@ export default function (
     const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
-      return next(ApiError.unauthenticated('Not authenticated!'));
+      return next(ApiError.unauthenticated('Не достаточно прав доступа!'));
     }
 
     let decoded: JWTUser;
@@ -39,7 +39,7 @@ export default function (
         process.env.JWT_SECRET as string
       ) as unknown as JWTUser;
     } catch (err) {
-      return next(ApiError.unauthenticated('Not authenticated!'));
+      return next(ApiError.unauthenticated('Не достаточно прав доступа!'));
     }
     req.user = decoded;
     next();

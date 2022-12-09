@@ -1,16 +1,16 @@
 import { makeAutoObservable } from 'mobx';
+import { JWTUser } from '../types/user';
 
 export interface User {
   name: string;
 }
-
 export class UserStore {
   isAuth: boolean;
-  user: User;
+  user: JWTUser | null;
 
   constructor() {
     this.isAuth = false;
-    this.user = { name: 'Nik' };
+    this.user = null;
     makeAutoObservable(this);
   }
 
@@ -18,7 +18,7 @@ export class UserStore {
     this.isAuth = status;
   }
 
-  setUser(user: User) {
+  setUser(user: JWTUser | null) {
     this.user = user;
   }
 }

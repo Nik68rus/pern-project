@@ -27,15 +27,13 @@ class UserController {
       const { email, password, role } = req.body;
 
       if (!isEmail(email) || !password || password.trim().length < 3) {
-        return next(
-          ApiError.validation('Invalid values for registration provided!')
-        );
+        return next(ApiError.validation('Неверные данные в полях ввода!'));
       }
 
       const existingUser = await User.findOne({ where: { email } });
 
       if (existingUser) {
-        return next(ApiError.badRequest('User already exists!'));
+        return next(ApiError.badRequest('Пользователь уже существует!'));
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
@@ -62,13 +60,13 @@ class UserController {
       const user = await User.findOne({ where: { email } });
 
       if (!user) {
-        return next(ApiError.notFound('User not found!'));
+        return next(ApiError.notFound('Пользователь не найден!'));
       }
 
       const isEqual = await bcrypt.compare(password, user.password);
 
       if (!isEqual) {
-        return next(ApiError.forbiden('Wrong password!'));
+        return next(ApiError.forbiden('Неправильный пароль!'));
       }
 
       const token = generateJWT(user.id, user.email, user.role);
@@ -82,7 +80,7 @@ class UserController {
   async check(req: ExtendedRequest, res: Response, next: NextFunction) {
     const { user } = req;
     if (!user) {
-      return next(ApiError.forbiden('Not authorized'));
+      return next(ApiError.forbiden('Не достаточно прав доступа!'));
     }
     const token = generateJWT(user.id, user.email, user.role);
     res.status(200).json({ message: 'ok', payload: token });

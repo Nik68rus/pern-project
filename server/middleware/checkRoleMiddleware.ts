@@ -25,7 +25,7 @@ export default function (role: UserRole) {
       const token = req.headers.authorization?.split(' ')[1];
 
       if (!token) {
-        return next(ApiError.unauthenticated('Not authenticated!'));
+        return next(ApiError.unauthenticated('Не достаточно прав доступа!'));
       }
 
       let decoded: JWTUser;
@@ -36,10 +36,10 @@ export default function (role: UserRole) {
           process.env.JWT_SECRET as string
         ) as unknown as JWTUser;
         if (decoded.role !== role) {
-          return next(ApiError.forbiden('You are not allowed to do this!'));
+          return next(ApiError.forbiden('Не достаточно прав доступа!'));
         }
       } catch (err) {
-        return next(ApiError.internal('Something went wrong!'));
+        return next(ApiError.internal('Что-то пошло не так!'));
       }
       req.user = decoded;
       next();

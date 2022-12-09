@@ -21,20 +21,24 @@ const Header = observer(() => {
         </NavLink>
         {user.isAuth ? (
           <Nav className={`ml-auto ${classes.nav}`}>
-            <Button
-              variant="outline-light"
-              onClick={() => {
-                navigate(RoutePath.ADMIN);
-              }}
-            >
-              Админ панель
-            </Button>
+            {user.user && user.user.role === 'ADMIN' && (
+              <Button
+                variant="outline-light"
+                onClick={() => {
+                  navigate(RoutePath.ADMIN);
+                }}
+              >
+                Админ панель
+              </Button>
+            )}
             <Button
               variant="outline-light"
               className={classes.exit}
               onClick={() => {
                 user.setAuth(false);
+                user.setUser(null);
                 navigate(RoutePath.LOGIN);
+                localStorage.removeItem('token');
               }}
             >
               Выйти
@@ -42,7 +46,10 @@ const Header = observer(() => {
           </Nav>
         ) : (
           <Nav className={`ml-auto ${classes.nav}`}>
-            <Button variant="outline-light" onClick={() => user.setAuth(true)}>
+            <Button
+              variant="outline-light"
+              onClick={() => navigate(RoutePath.LOGIN)}
+            >
               Авторизация
             </Button>
           </Nav>

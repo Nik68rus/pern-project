@@ -8,8 +8,8 @@ export default function (
   next: NextFunction
 ) {
   if (err instanceof ApiError) {
-    return res.status(err.status).json({ message: err.message });
+    return res.status(err.status).json(err.message);
   }
 
-  return res.status(500).json({ message: 'Unhandled error occures!' });
+  return res.status(500).json('Unhandled error occures!');
 }
