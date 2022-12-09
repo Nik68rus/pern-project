@@ -4,13 +4,14 @@ import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Context } from '../App';
 import { RoutePath } from '../types/routes';
 import classes from './Header.module.css';
 
 const Header = observer(() => {
   const { user } = useContext(Context);
+  const navigate = useNavigate();
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -20,8 +21,22 @@ const Header = observer(() => {
         </NavLink>
         {user.isAuth ? (
           <Nav className={`ml-auto ${classes.nav}`}>
-            <Button variant="outline-light">Админ панель</Button>
-            <Button variant="outline-light" className={classes.exit}>
+            <Button
+              variant="outline-light"
+              onClick={() => {
+                navigate(RoutePath.ADMIN);
+              }}
+            >
+              Админ панель
+            </Button>
+            <Button
+              variant="outline-light"
+              className={classes.exit}
+              onClick={() => {
+                user.setAuth(false);
+                navigate(RoutePath.LOGIN);
+              }}
+            >
               Выйти
             </Button>
           </Nav>

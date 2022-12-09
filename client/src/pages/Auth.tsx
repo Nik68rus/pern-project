@@ -1,12 +1,20 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useContext } from 'react';
 import { Button, Card, Container, Form } from 'react-bootstrap';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Navigate, NavLink, useLocation } from 'react-router-dom';
+import { Context } from '../App';
 import { RoutePath } from '../types/routes';
 import classes from './Auth.module.css';
 
-function Auth() {
+const Auth = observer(() => {
   const location = useLocation();
   const isLogin = location.pathname === RoutePath.LOGIN;
+  const { user } = useContext(Context);
+
+  if (user.isAuth) {
+    return <Navigate to={RoutePath.HOME} replace />;
+  }
 
   return (
     <Container className={classes.container}>
@@ -35,6 +43,6 @@ function Auth() {
       </Card>
     </Container>
   );
-}
+});
 
 export default Auth;
