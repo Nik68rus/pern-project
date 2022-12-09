@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { Context } from '../App';
 import { RoutePath } from '../types/routes';
-// import useAuthStatus from '../hooks/useAuthStatus';
-// import Spinner from './Spinner';
 
 function PrivateRoute() {
-  // const { loggedIn, checkingStatus } = useAuthStatus();
-
-  // if (checkingStatus) {
-  //   return <Spinner />;
-  // }
-  const loggedIn = false;
+  const { user } = useContext(Context);
+  const loggedIn = user.isAuth;
 
   return loggedIn ? <Outlet /> : <Navigate to={RoutePath.LOGIN} />;
 }

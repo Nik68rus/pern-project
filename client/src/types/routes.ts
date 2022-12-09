@@ -4,5 +4,5 @@ export enum RoutePath {
   LOGIN = '/login',
   SIGNUP = '/signup',
   CART = '/cart',
-  DEVICE = '/device/:deviceId',
+  DEVICE = '/device',
 }

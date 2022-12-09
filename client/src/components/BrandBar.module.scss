@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.active {
+  background-color: blue;
+  color: red;
+}
+
+.brand {
+  cursor: pointer;
+}

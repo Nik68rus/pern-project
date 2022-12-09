@@ -3,7 +3,7 @@ import ApiError from '../error/apiError';
 import { v4 as uuidv4 } from 'uuid';
 import { UploadedFile } from 'express-fileupload';
 import path from 'path';
-import { Device, DeviceInfo } from '../models/models';
+import { Brand, Device, DeviceInfo, Type } from '../models/models';
 import { handleError } from '../helpers/controllers';
 
 interface IDeviceInfo {
@@ -64,6 +64,10 @@ class DeviceController {
           where: { brandId },
           limit: currentLimit,
           offset,
+          // include: [
+          //   { model: Brand, as: 'brand' },
+          //   { model: Type, as: 'type' },
+          // ],
         });
       }
 

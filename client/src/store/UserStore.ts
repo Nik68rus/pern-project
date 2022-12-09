@@ -1,15 +1,26 @@
 import { makeAutoObservable } from 'mobx';
 
-interface User {
+export interface User {
   name: string;
 }
 
-export default class UserStore {
-  private _isAuth: boolean;
-  private _user: User;
+export class UserStore {
+  isAuth: boolean;
+  user: User;
+
   constructor() {
-    this._isAuth = false;
-    this._user = { name: '' };
+    this.isAuth = false;
+    this.user = { name: 'Nik' };
     makeAutoObservable(this);
   }
+
+  setAuth(status: boolean) {
+    this.isAuth = status;
+  }
+
+  setUser(user: User) {
+    this.user = user;
+  }
 }
+
+export default new UserStore();
