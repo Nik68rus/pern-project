@@ -1,39 +1,41 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { FaStar } from 'react-icons/fa';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { IDevice } from '../types/device';
 import classes from './DevicePage.module.scss';
 import cx from 'classnames';
+import { getOneDevice } from '../http/deviceAPI';
 
 function DevicePage() {
-  // const params = useParams<{
-  //   deviceId: string;
-  // }>();
+  const params = useParams<{
+    deviceId: string;
+  }>();
+  const [device, setDevice] = useState<IDevice | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const device: IDevice = {
-    id: 3,
-    name: 'Iphone 13 pro max',
-    price: 1299,
-    rating: 5,
-    img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-    typeId: 2,
-    brandId: 1,
-  };
+  useEffect(() => {
+    if (!params.deviceId) return;
+    setLoading(true);
+    getOneDevice(params.deviceId).then((data) => {
+      setDevice(data);
+      setLoading(false);
+    });
+  }, [params.deviceId]);
 
-  const description = [
-    { id: 1, title: 'Оперативная память', description: '5 гб' },
-    { id: 2, title: 'Камера', description: '12 мп' },
-    { id: 3, title: 'Процессор', description: 'M1 Pro' },
-    { id: 4, title: 'Вес', description: '215 г.' },
-    { id: 5, title: 'Аккумулятор', description: '10000 MAh' },
-  ];
+  if (loading || !device) {
+    return <h4>Loading...</h4>;
+  }
 
   return (
     <Container className="mt-3 d-flex flex-column">
       <Row>
         <Col md={4}>
-          <Image width={300} height={300} src={device.img} />
+          <Image
+            width={300}
+            height={300}
+            src={process.env.REACT_APP_HOST_URL + '/' + device.img}
+          />
         </Col>
         <Col md={4}>
           <div className={classes.rateWrapper}>
@@ -59,16 +61,21 @@ function DevicePage() {
           </Card>
         </Col>
       </Row>
-      <Row className={cx(classes.params, 'mt-3')}>
-        <h2>Характеристики</h2>
-        <ul>
-          {description.map((item, index) => (
-            <li key={item.id} className={index % 2 === 0 ? classes.dark : null}>
-              {item.title}: {item.description}
-            </li>
-          ))}
-        </ul>
-      </Row>
+      {device.info.length ? (
+        <Row className={cx(classes.params, 'mt-3')}>
+          <h2>Характеристики</h2>
+          <ul>
+            {device.info.map((item, index) => (
+              <li
+                key={item.id}
+                className={index % 2 === 0 ? classes.dark : null}
+              >
+                {item.title}: {item.description}
+              </li>
+            ))}
+          </ul>
+        </Row>
+      ) : null}
     </Container>
   );
 }

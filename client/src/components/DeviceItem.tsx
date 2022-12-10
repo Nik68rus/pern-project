@@ -21,7 +21,12 @@ const DeviceItem = ({ device }: Props) => {
       }}
     >
       <Card style={{ width: 150, cursor: 'pointer' }} border="light">
-        <Image width={150} height={150} src={device.img} />
+        <Image
+          width={150}
+          height={150}
+          src={process.env.REACT_APP_HOST_URL + '/' + device.img}
+          className={classes.image}
+        />
         <div className="mt-1 d-flex justify-content-between">
           <div className="text-black-50">Apple</div>
           <div className={classes.rating}>

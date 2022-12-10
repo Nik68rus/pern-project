@@ -6,6 +6,7 @@ export interface IDevice {
   img: string;
   typeId: number;
   brandId: number;
+  info: { id: number; title: string; description: string }[];
 }
 
 export interface ITypeBrand {

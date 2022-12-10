@@ -7,7 +7,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { check } from './http/userAPI';
 import { observer } from 'mobx-react-lite';
-import { handleError } from './helpers';
 
 interface IContext {
   user: typeof userStore;
@@ -45,13 +44,11 @@ const App = observer(() => {
       .then((data) => {
         userStore.setUser(data);
         userStore.setAuth(true);
-        setLoading(false);
       })
-      .then()
       .catch((err) => {
         console.log(err);
-        handleError(err);
-
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, []);

@@ -9,84 +9,9 @@ export class DeviceStore {
   selectedBrand: number | null;
 
   constructor() {
-    this.types = [
-      { id: 1, name: 'Холодильники' },
-      { id: 2, name: 'Смартфоны' },
-      { id: 3, name: 'Телевизоры' },
-      { id: 4, name: 'Планшеты' },
-      { id: 5, name: 'Ноутбуки' },
-    ];
-    this.brands = [
-      { id: 1, name: 'Apple' },
-      { id: 2, name: 'Samsung' },
-      { id: 3, name: 'Lenovo' },
-      { id: 4, name: 'HP' },
-    ];
-    this.devices = [
-      {
-        id: 1,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-      {
-        id: 2,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-      {
-        id: 3,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-      {
-        id: 4,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-      {
-        id: 5,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-      {
-        id: 6,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-      {
-        id: 7,
-        name: 'Iphone 13 pro max',
-        price: 1299,
-        rating: 5,
-        img: 'https://yablonya.com/wp-content/uploads/2022/04/samsung-galaxy-s21-ultra-7-768x768.jpg',
-        typeId: 2,
-        brandId: 1,
-      },
-    ];
+    this.types = [];
+    this.brands = [];
+    this.devices = [];
     this.selectedType = null;
     this.selectedBrand = null;
     makeAutoObservable(this);
@@ -104,11 +29,11 @@ export class DeviceStore {
     this.devices = devices;
   }
 
-  setSelectedType(id: number) {
+  setSelectedType(id: number | null) {
     this.selectedType = id;
   }
 
-  setSelectedBrand(id: number) {
+  setSelectedBrand(id: number | null) {
     this.selectedBrand = id;
   }
 }

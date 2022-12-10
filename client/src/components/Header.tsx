@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Context } from '../App';
 import { RoutePath } from '../types/routes';
-import classes from './Header.module.css';
+import classes from './Header.module.scss';
 
 const Header = observer(() => {
   const { user } = useContext(Context);

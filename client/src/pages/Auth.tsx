@@ -1,14 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useContext } from 'react';
-import { toast } from 'react-toastify';
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../App';
 import { login, registration } from '../http/userAPI';
 import { RoutePath } from '../types/routes';
-import classes from './Auth.module.css';
-import { AxiosError } from 'axios';
+import classes from './Auth.module.scss';
+import { handleError } from '../helpers';
 
 const Auth = observer(() => {
   const location = useLocation();
@@ -38,15 +37,7 @@ const Auth = observer(() => {
         }
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        toast(error.response?.data || 'Что-то пошло не так! Попробуйте позже!');
-      } else if (error instanceof Error) {
-        toast(error.message || 'Что-то пошло не так! Попробуйте позже!!');
-      } else if (typeof error === 'string') {
-        toast(error || 'Что-то пошло не так! Попробуйте позже!!!');
-      } else {
-        toast('Что-то пошло не так! Попробуйте позже!!!!');
-      }
+      handleError(error);
     }
   };
 
