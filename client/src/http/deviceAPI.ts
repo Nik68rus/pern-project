@@ -41,6 +41,16 @@ export const deleteType = async (id: number) => {
   return data.message;
 };
 
+export const editType = async (type: ITypeBrand) => {
+  const { data } = await authHost.patch<IBrandTypeResponse>(
+    '/type/' + type.id,
+    {
+      name: type.name,
+    }
+  );
+  return data.message;
+};
+
 export const getDevices = async (params?: IGetDeviceParams) => {
   let url = '/device';
   if (params) {

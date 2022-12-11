@@ -14,6 +14,12 @@ interface SignupRequest extends Request {
     role?: UserRole;
   };
 }
+interface UpdateRequest extends ExtendedRequest {
+  body: {
+    email: string;
+    role: UserRole;
+  };
+}
 
 const generateJWT = (id: number, email: string, role: string) => {
   return jwt.sign({ id, email, role }, process.env.JWT_SECRET as string, {
@@ -84,6 +90,40 @@ class UserController {
     }
     const token = generateJWT(user.id, user.email, user.role);
     res.status(200).json({ message: 'ok', payload: token });
+  }
+
+  async getAdmins(req: ExtendedRequest, res: Response, next: NextFunction) {
+    const { user } = req;
+    if (!user) {
+      return next(ApiError.forbiden('Не достаточно прав доступа!'));
+    }
+    try {
+      const admins = await User.findAll({ where: { role: 'ADMIN' } });
+      res.status(200).json({ message: 'ok', payload: admins });
+    } catch (error) {
+      return next(ApiError.internal('Что-то пошло не так! Попробуйте позже!'));
+    }
+  }
+
+  async updateUser(req: UpdateRequest, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const { email, role } = req.body;
+
+    try {
+      const user = await User.findOne({ where: { email } });
+
+      if (!user) {
+        return next(ApiError.notFound('Пользователь не найден!'));
+      }
+
+      user.role = role;
+      await user.save();
+      return res
+        .status(200)
+        .json({ message: `Информация о пользователе ${email} обновлена` });
+    } catch (error) {
+      return next(ApiError.internal('Что-то пошло не так! Попробуйте позже!'));
+    }
   }
 }
 

@@ -1,0 +1,19 @@
+.user {
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  button {
+    margin-left: auto;
+  }
+
+  :global(.badge) {
+    margin-left: 10px;
+  }
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}

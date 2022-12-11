@@ -1,6 +1,7 @@
 .list :global(.list-group-item) {
   cursor: pointer;
   transition: opacity 0.3s ease;
+  position: relative;
 }
 
 :global(.list-group-item).item {
@@ -8,14 +9,30 @@
   align-items: center;
   justify-content: space-between;
 
-  button {
+  .adminActions,
+  .editActions {
     visibility: hidden;
     opacity: 0;
     margin-left: auto;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    button:not(:last-child) {
+      margin-right: 5px;
+    }
   }
 
-  &:hover button {
+  &:hover:not(.editing) .adminActions {
     opacity: 1;
     visibility: visible;
   }
+
+  &:hover.editing .editActions {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.editing {
 }

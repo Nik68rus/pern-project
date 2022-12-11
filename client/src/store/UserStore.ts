@@ -2,7 +2,10 @@ import { makeAutoObservable } from 'mobx';
 import { JWTUser } from '../types/user';
 
 export interface User {
-  name: string;
+  // name: string;
+  id: number;
+  email: string;
+  role: 'ADMIN' | 'USER';
 }
 export class UserStore {
   isAuth: boolean;

@@ -54,6 +54,29 @@ class TypeController {
       return next(ApiError.badRequest('Не удалось найти тип!'));
     }
   }
+
+  async editType(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!id) return;
+
+    if (!name || name.trim().length < 2) {
+      return next(
+        ApiError.validation('Недопустимое значение (не менее двух символов)!')
+      );
+    }
+
+    const type = await Type.findByPk(id);
+
+    if (type) {
+      type.name = name;
+      await type.save();
+      return res.status(200).json({ message: 'Тип обновлен!' });
+    } else {
+      return next(ApiError.badRequest('Не удалось найти тип!'));
+    }
+  }
 }
 
 export default new TypeController();
