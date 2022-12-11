@@ -35,6 +35,7 @@ function DevicePage() {
             width={300}
             height={300}
             src={process.env.REACT_APP_HOST_URL + '/' + device.img}
+            className={classes.image}
           />
         </Col>
         <Col md={4}>

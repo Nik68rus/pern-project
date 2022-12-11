@@ -26,11 +26,17 @@ const initialState: IContext = {
     devices: [],
     selectedType: null,
     selectedBrand: null,
+    page: 0,
+    limit: 0,
+    totalCount: 0,
     setTypes: () => {},
     setBrands: () => {},
     setDevices: () => {},
     setSelectedType: () => {},
     setSelectedBrand: () => {},
+    setPage: () => {},
+    setLimit: () => {},
+    setTotalCount: () => {},
   },
 };
 

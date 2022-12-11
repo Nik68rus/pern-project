@@ -15,11 +15,8 @@ const CreateType = ({ show, onHide }: Props) => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('submit');
 
     if (!typeRef.current) return;
-
-    console.log(typeRef.current.value);
 
     try {
       await createType(typeRef.current.value);

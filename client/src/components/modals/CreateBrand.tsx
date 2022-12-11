@@ -16,11 +16,8 @@ const CreateBrand = ({ show, onHide }: Props) => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('submit');
 
     if (!brandRef.current) return;
-
-    console.log(brandRef.current.value);
 
     try {
       await createBrand(brandRef.current.value);

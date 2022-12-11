@@ -23,7 +23,6 @@ const Auth = observer(() => {
       const { email, password } = form;
       if (isLogin) {
         data = await login(email, password);
-        console.log(data);
 
         if (data) {
           user.setAuth(true);

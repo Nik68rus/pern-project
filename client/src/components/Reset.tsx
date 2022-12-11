@@ -8,6 +8,7 @@ function Reset() {
   const clickHandler = () => {
     device.setSelectedBrand(null);
     device.setSelectedType(null);
+    device.setPage(1);
   };
   return (
     <Button onClick={clickHandler} className="mt-5">

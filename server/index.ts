@@ -36,6 +36,5 @@ const start = async () => {
     console.log(error);
   }
 };
-// console.log(models);
 
 start();

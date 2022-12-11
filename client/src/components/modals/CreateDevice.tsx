@@ -53,7 +53,6 @@ const CreateDevice = observer(({ show, onHide }: Props) => {
     setInfo(
       info.map((item) => (item.id === id ? { ...item, [title]: value } : item))
     );
-    console.log(info);
   };
 
   const addDevice = (e: React.FormEvent<HTMLFormElement>) => {

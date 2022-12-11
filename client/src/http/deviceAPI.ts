@@ -4,6 +4,8 @@ import { host, authHost } from '.';
 export interface IGetDeviceParams {
   brandId?: number;
   typeId?: number;
+  limit?: number;
+  page?: number;
 }
 
 interface IBrandTypeResponse {
@@ -32,6 +34,11 @@ export const getBrands = async () => {
 export const getTypes = async () => {
   const { data } = await host.get<IBrandTypeResponse>('/type');
   return data.payload;
+};
+
+export const deleteType = async (id: number) => {
+  const { data } = await authHost.delete<IBrandTypeResponse>('/type/' + id);
+  return data.message;
 };
 
 export const getDevices = async (params?: IGetDeviceParams) => {

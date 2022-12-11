@@ -64,10 +64,6 @@ class DeviceController {
           where: { brandId },
           limit: currentLimit,
           offset,
-          // include: [
-          //   { model: Brand, as: 'brand' },
-          //   { model: Type, as: 'type' },
-          // ],
         });
       }
 

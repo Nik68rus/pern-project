@@ -13,7 +13,10 @@ const BrandBar = observer(() => {
       {device.brands.map((brand) => (
         <Card
           key={brand.id}
-          onClick={() => device.setSelectedBrand(brand.id)}
+          onClick={() => {
+            device.setSelectedBrand(brand.id);
+            device.setPage(1);
+          }}
           className={cx(
             {
               [classes.active]: brand.id === device.selectedBrand,

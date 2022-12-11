@@ -18,7 +18,13 @@ class BrandController {
     const { name } = req.body;
 
     if (!name) {
-      return next(ApiError.badRequest('No brand name provided!'));
+      return next(ApiError.badRequest('Не указано название бренда!'));
+    }
+
+    const existingBrand = await Brand.findOne({ where: { name } });
+
+    if (existingBrand) {
+      return next(ApiError.badRequest('Такой бренд уже существует!'));
     }
 
     const brand = await Brand.create({ name });

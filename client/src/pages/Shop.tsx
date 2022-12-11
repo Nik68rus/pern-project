@@ -20,7 +20,10 @@ const Shop = observer(() => {
   useEffect(() => {
     getBrands().then((brands) => device.setBrands(brands));
     getTypes().then((types) => device.setTypes(types));
-    let params: IGetDeviceParams = {};
+    let params: IGetDeviceParams = {
+      page: device.page,
+      limit: device.limit,
+    };
     if (device.selectedBrand) {
       params.brandId = device.selectedBrand;
     }
@@ -28,16 +31,11 @@ const Shop = observer(() => {
       params.typeId = device.selectedType;
     }
 
-    if (Object.keys(params).length) {
-      getDevices(params).then((data) => {
-        device.setDevices(data.rows);
-      });
-    } else {
-      getDevices().then((data) => {
-        device.setDevices(data.rows);
-      });
-    }
-  }, [device, device.selectedBrand, device.selectedType]);
+    getDevices(params).then((data) => {
+      device.setDevices(data.rows);
+      device.setTotalCount(data.count);
+    });
+  }, [device, device.selectedBrand, device.selectedType, device.page]);
 
   return (
     <Container>

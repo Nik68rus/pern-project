@@ -7,11 +7,17 @@ export class DeviceStore {
   devices: IDevice[];
   selectedType: number | null;
   selectedBrand: number | null;
+  page: number;
+  totalCount: number;
+  limit: number;
 
   constructor() {
     this.types = [];
     this.brands = [];
     this.devices = [];
+    this.page = 1;
+    this.totalCount = 0;
+    this.limit = 3;
     this.selectedType = null;
     this.selectedBrand = null;
     makeAutoObservable(this);
@@ -35,6 +41,17 @@ export class DeviceStore {
 
   setSelectedBrand(id: number | null) {
     this.selectedBrand = id;
+  }
+
+  setPage(n: number) {
+    this.page = n;
+  }
+
+  setLimit(n: number) {
+    this.limit = n;
+  }
+  setTotalCount(n: number) {
+    this.totalCount = n;
   }
 }
 
