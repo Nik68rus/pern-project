@@ -7,6 +7,7 @@ export class DeviceStore {
   devices: IDevice[];
   selectedType: number | null;
   selectedBrand: number | null;
+  selectedDevice: number | null;
   page: number;
   totalCount: number;
   limit: number;
@@ -20,6 +21,7 @@ export class DeviceStore {
     this.limit = 3;
     this.selectedType = null;
     this.selectedBrand = null;
+    this.selectedDevice = null;
     makeAutoObservable(this);
   }
 
@@ -41,6 +43,10 @@ export class DeviceStore {
 
   setSelectedBrand(id: number | null) {
     this.selectedBrand = id;
+  }
+
+  setSelectedDevice(id: number | null) {
+    this.selectedDevice = id;
   }
 
   setPage(n: number) {

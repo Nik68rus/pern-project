@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
-import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Card, Container, Image, Row } from 'react-bootstrap';
 import { FaStar } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { IDevice } from '../types/device';
 import classes from './DevicePage.module.scss';
 import cx from 'classnames';
@@ -9,6 +9,10 @@ import { getOneDevice } from '../http/deviceAPI';
 import Rating from '../components/Rating';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../App';
+import { handleError } from '../helpers';
+import { RoutePath } from '../types/routes';
+import { postCart } from '../http/cartAPI';
+import { toast } from 'react-toastify';
 
 const DevicePage = observer(() => {
   const params = useParams<{
@@ -16,20 +20,42 @@ const DevicePage = observer(() => {
   }>();
   const [device, setDevice] = useState<IDevice | null>(null);
   const [loading, setLoading] = useState(true);
+  const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
 
-  const { user } = useContext(Context);
+  const { user, device: deviceCtx } = useContext(Context);
 
   useEffect(() => {
     if (!params.deviceId) return;
-    setLoading(true);
-    getOneDevice(params.deviceId).then((data) => {
-      setDevice(data);
-      setLoading(false);
-    });
-  }, [params.deviceId]);
 
-  if (loading || !device) {
+    if (isNaN(+params.deviceId)) {
+      return navigate(RoutePath.NOTFOUND);
+    }
+
+    setLoading(true);
+    getOneDevice(params.deviceId)
+      .then((data) => {
+        setDevice(data);
+        deviceCtx.setSelectedDevice(data.id);
+        setRating(data.rating);
+      })
+      .catch((err) => handleError(err, 'nodevice'))
+      .finally(() => setLoading(false));
+  }, [params.deviceId, navigate, deviceCtx]);
+
+  const handleCartAdd = async () => {
+    if (deviceCtx.selectedDevice) {
+      await postCart(deviceCtx.selectedDevice);
+      toast.success('Товар добавлен в корзину!');
+    }
+  };
+
+  if (loading) {
     return <h4>Loading...</h4>;
+  }
+
+  if (!device) {
+    return <Navigate to={RoutePath.NOTFOUND} />;
   }
 
   return (
@@ -48,10 +74,10 @@ const DevicePage = observer(() => {
             <h2>{device.name}</h2>
             <div className={classes.rating}>
               <FaStar />
-              {device.rating}
+              {rating === 0 ? 'N/A' : rating}
             </div>
           </div>
-          {user.user ? <Rating /> : null}
+          {user.user ? <Rating onChange={setRating} /> : null}
         </div>
         <div className={classes.column}>
           <Card
@@ -64,7 +90,9 @@ const DevicePage = observer(() => {
             }}
           >
             <h3>{device.price} Р</h3>
-            <Button variant="outline-dark">Добавить в корзину</Button>
+            <Button variant="outline-dark" onClick={handleCartAdd}>
+              Добавить в корзину
+            </Button>
           </Card>
         </div>
       </div>

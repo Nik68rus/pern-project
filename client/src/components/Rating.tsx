@@ -1,13 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import classes from './Rating.module.scss';
 import cx from 'classnames';
+import { getMyRate, postRate } from '../http/rateAPI';
+import { Context } from '../App';
+import { handleError } from '../helpers';
+import { toast } from 'react-toastify';
 
-const Rating = () => {
+interface Props {
+  onChange: (rating: number) => void;
+}
+
+const Rating = ({ onChange }: Props) => {
   const [mark, setMark] = useState(0);
   const [hovered, setHovered] = useState(0);
+  const { device } = useContext(Context);
+
+  useEffect(() => {
+    if (device.selectedDevice) {
+      getMyRate(device.selectedDevice)
+        .then((data) => setMark(data))
+        .catch((err) => handleError(err));
+    }
+  }, [device.selectedDevice]);
 
   const rates = [1, 2, 3, 4, 5];
+
+  const handleMark = async (rate: number) => {
+    setMark(rate);
+    if (!device.selectedDevice) {
+      return handleError('Что-то пошло не так! Попробуйте позже!');
+    }
+    try {
+      const response = await postRate(device.selectedDevice, rate);
+      onChange(response.rating);
+      toast.success('Ваш голос учтен!');
+    } catch (err) {
+      handleError(err);
+    }
+  };
 
   return (
     <div className={classes.rating} onMouseLeave={() => setHovered(0)}>
@@ -19,7 +50,7 @@ const Rating = () => {
           })}
           onMouseOver={() => setHovered(mark > 0 ? mark : rate)}
         >
-          <label htmlFor={`rate${rate}`} onClick={() => setMark(rate)}>
+          <label htmlFor={`rate${rate}`}>
             <FaStar />
           </label>
           <input
@@ -29,6 +60,7 @@ const Rating = () => {
             name="rate"
             id={`rate${rate}`}
             checked={mark === rate}
+            onChange={handleMark.bind(this, rate)}
           />
         </div>
       ))}

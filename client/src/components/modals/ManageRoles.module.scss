@@ -6,6 +6,9 @@
 
   button {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   :global(.badge) {

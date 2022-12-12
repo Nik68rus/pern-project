@@ -8,8 +8,6 @@ import errorHandler from './middleware/errorHandlerMiddleware';
 import fileUpload from 'express-fileupload';
 import path from 'path';
 
-dotenv.config();
-
 let PORT = +(process.env.PORT as string);
 
 if (isNaN(PORT)) {
@@ -23,6 +21,8 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(fileUpload({}));
 app.use('/api', router);
+const vars = dotenv.config({ override: true });
+console.log(vars.parsed);
 
 // Must be last one!!!
 app.use(errorHandler);

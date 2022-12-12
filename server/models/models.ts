@@ -68,8 +68,8 @@ interface CartDevice
     InferCreationAttributes<CartDevice>
   > {
   id: CreationOptional<number>;
-  // createdAt: CreationOptional<Date>;
-  // updatedAt: CreationOptional<Date>;
+  cartId: CreationOptional<number>;
+  deviceId: CreationOptional<number>;
 }
 
 const CartDevice = sequelize.define<CartDevice>('cart_device', {
@@ -78,8 +78,8 @@ const CartDevice = sequelize.define<CartDevice>('cart_device', {
     primaryKey: true,
     autoIncrement: true,
   },
-  // createdAt: DataTypes.DATE,
-  // updatedAt: DataTypes.DATE,
+  cartId: DataTypes.INTEGER,
+  deviceId: DataTypes.INTEGER,
 });
 
 interface Device
@@ -111,7 +111,7 @@ const Device = sequelize.define<Device>('device', {
     allowNull: false,
   },
   rating: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
     defaultValue: 0,
   },
   img: {
@@ -210,6 +210,8 @@ interface Rating
   extends Model<InferAttributes<Rating>, InferCreationAttributes<Rating>> {
   id: CreationOptional<number>;
   rate: number;
+  deviceId: CreationOptional<number>;
+  userId: CreationOptional<number>;
 }
 
 const Rating = sequelize.define<Rating>('rating', {
@@ -222,6 +224,8 @@ const Rating = sequelize.define<Rating>('rating', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  deviceId: DataTypes.INTEGER,
+  userId: DataTypes.INTEGER,
 });
 
 User.hasOne(Cart);
@@ -230,8 +234,15 @@ Cart.belongsTo(User);
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
+Device.hasMany(Rating);
+Rating.belongsTo(Device);
+Rating.hasOne(Device);
+
 Cart.hasMany(CartDevice);
 CartDevice.belongsTo(Cart);
+
+CartDevice.hasOne(Device);
+Device.belongsToMany(Cart, { through: CartDevice });
 
 Brand.hasMany(Device);
 Device.belongsTo(Brand);

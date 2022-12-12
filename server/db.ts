@@ -1,7 +1,10 @@
 import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+
+dotenv.config({ override: true });
 
 const sequelize = new Sequelize(
-  'pern',
+  process.env.DB_NAME as string,
   process.env.DB_USER as string,
   process.env.DB_PASSWORD as string,
   {

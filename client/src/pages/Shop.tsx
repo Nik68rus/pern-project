@@ -18,6 +18,7 @@ const Shop = observer(() => {
   const { device } = useContext(Context);
 
   useEffect(() => {
+    device.setSelectedDevice(null);
     getBrands().then((brands) => device.setBrands(brands));
     getTypes().then((types) => device.setTypes(types));
     let params: IGetDeviceParams = {

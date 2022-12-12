@@ -5,6 +5,7 @@ import Admin from '../pages/Admin';
 import Auth from '../pages/Auth';
 import Cart from '../pages/Cart';
 import DevicePage from '../pages/DevicePage';
+import NotFound from '../pages/NotFound';
 import Shop from '../pages/Shop';
 import { RoutePath } from '../types/routes';
 import PrivateRoute from './PrivateRoute';
@@ -23,6 +24,7 @@ function AppRouter() {
       <Route path={RoutePath.SIGNUP} element={<Auth />} />
       <Route path={RoutePath.DEVICE} element={<Shop />} />
       <Route path={RoutePath.DEVICE + '/:deviceId'} element={<DevicePage />} />
+      <Route path={RoutePath.NOTFOUND} element={<NotFound />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

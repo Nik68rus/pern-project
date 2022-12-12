@@ -42,7 +42,7 @@ const DeviceItem = ({ device }: Props) => {
             }
           </div>
           <div className={classes.rating}>
-            <div>{device.rating}</div>
+            <div>{device.rating === 0 ? 'n/a' : device.rating}</div>
             <FaStar />
           </div>
         </div>

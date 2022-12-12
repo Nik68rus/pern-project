@@ -13,3 +13,9 @@ export interface ITypeBrand {
   id: number;
   name: string;
 }
+
+export interface ICartDevice {
+  id: number;
+  deviceID: number;
+  cartId: number;
+}
