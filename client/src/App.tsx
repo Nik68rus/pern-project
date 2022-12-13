@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import AppRouter from './components/AppRouter';
 import userStore from './store/UserStore';
 import deviceStore from './store/DeviceStore';
+import cartStore from './store/CartStore';
 import Header from './components/Header';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -11,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 interface IContext {
   user: typeof userStore;
   device: typeof deviceStore;
+  cart: typeof cartStore;
 }
 
 const initialState: IContext = {
@@ -39,6 +41,10 @@ const initialState: IContext = {
     setPage: () => {},
     setLimit: () => {},
     setTotalCount: () => {},
+  },
+  cart: {
+    items: [],
+    setItems: () => {},
   },
 };
 
@@ -70,6 +76,7 @@ const App = observer(() => {
       value={{
         user: userStore,
         device: deviceStore,
+        cart: cartStore,
       }}
     >
       <Router>

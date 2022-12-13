@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Context } from '../App';
 import BrandBar from '../components/BrandBar';
@@ -7,6 +7,7 @@ import DeviceList from '../components/DeviceList';
 import Pages from '../components/Pages';
 import Reset from '../components/Reset';
 import TypeBar from '../components/TypeBar';
+import { handleError } from '../helpers';
 import {
   getBrands,
   getDevices,
@@ -16,11 +17,19 @@ import {
 
 const Shop = observer(() => {
   const { device } = useContext(Context);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     device.setSelectedDevice(null);
-    getBrands().then((brands) => device.setBrands(brands));
-    getTypes().then((types) => device.setTypes(types));
+    getBrands()
+      .then((brands) => {
+        device.setBrands(brands);
+        return getTypes();
+      })
+      .then((types) => device.setTypes(types))
+      .catch((err) => handleError(err))
+      .finally(() => setLoading(false));
     let params: IGetDeviceParams = {
       page: device.page,
       limit: device.limit,
@@ -37,6 +46,10 @@ const Shop = observer(() => {
       device.setTotalCount(data.count);
     });
   }, [device, device.selectedBrand, device.selectedType, device.page]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <Container>

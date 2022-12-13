@@ -6,6 +6,16 @@ interface PostCartResponse {
   payload: ICartDevice;
 }
 
+interface DeleteCartResponse {
+  message: string;
+  payload: number;
+}
+
+interface GetCartResponse {
+  message: string;
+  payload: ICartDevice[];
+}
+
 export const postCart = async (deviceId: number) => {
   const { data } = await authHost.post<PostCartResponse>(`/cart`, {
     deviceId,
@@ -13,7 +23,14 @@ export const postCart = async (deviceId: number) => {
   return data.payload;
 };
 
-export const getCart = async (deviceId: number) => {
-  const { data } = await authHost.get('/cart');
+export const getCart = async () => {
+  const { data } = await authHost.get<GetCartResponse>('/cart');
+  return data.payload;
+};
+
+export const deleteCart = async (deviceId: number) => {
+  const { data } = await authHost.delete<DeleteCartResponse>(
+    `/cart/${deviceId}`
+  );
   return data.payload;
 };

@@ -16,6 +16,12 @@ export interface ITypeBrand {
 
 export interface ICartDevice {
   id: number;
-  deviceID: number;
+  deviceId: number;
   cartId: number;
+}
+
+export interface ICartPosition extends IDevice {
+  quantity: number;
+  type: string | undefined;
+  brand: string | undefined;
 }

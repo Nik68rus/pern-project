@@ -2,15 +2,15 @@ import { ICartDevice } from './../types/device';
 import { makeAutoObservable } from 'mobx';
 
 export class CartStore {
-  cart: ICartDevice[];
+  items: ICartDevice[];
 
   constructor() {
-    this.cart = [];
+    this.items = [];
     makeAutoObservable(this);
   }
 
-  setCart(items: ICartDevice[]) {
-    this.cart = items;
+  setItems(items: ICartDevice[]) {
+    this.items = items;
   }
 }
 
