@@ -12,3 +12,5 @@ interface JWTUser {
 export interface ExtendedRequest extends Request {
   user?: JWTUser;
 }
+
+export type TOrderStatus = 'processing' | 'delivering' | 'finished';

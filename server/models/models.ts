@@ -1,3 +1,4 @@
+import { TOrderStatus } from './../types/index';
 import sequelize from '../db';
 import {
   DataTypes,
@@ -47,8 +48,6 @@ interface Cart
   extends Model<InferAttributes<Cart>, InferCreationAttributes<Cart>> {
   id: CreationOptional<number>;
   userId: CreationOptional<number>;
-  // createdAt: CreationOptional<Date>;
-  // updatedAt: CreationOptional<Date>;
 }
 
 const Cart = sequelize.define<Cart>('cart', {
@@ -58,8 +57,6 @@ const Cart = sequelize.define<Cart>('cart', {
     autoIncrement: true,
   },
   userId: DataTypes.INTEGER,
-  // createdAt: DataTypes.DATE,
-  // updatedAt: DataTypes.DATE,
 });
 
 interface CartDevice
@@ -122,6 +119,49 @@ const Device = sequelize.define<Device>('device', {
   brandId: DataTypes.INTEGER,
   createdAt: DataTypes.DATE,
   updatedAt: DataTypes.DATE,
+});
+
+interface OrderDevice
+  extends Model<
+    InferAttributes<OrderDevice>,
+    InferCreationAttributes<OrderDevice>
+  > {
+  id: CreationOptional<number>;
+  orderId: CreationOptional<number>;
+  deviceId: CreationOptional<number>;
+  price: number;
+  quantity: number;
+}
+
+interface Order
+  extends Model<InferAttributes<Order>, InferCreationAttributes<Order>> {
+  id: CreationOptional<number>;
+  userId: CreationOptional<number>;
+  details: string;
+  status: TOrderStatus;
+}
+
+const Order = sequelize.define<Order>('order', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  userId: DataTypes.INTEGER,
+  details: DataTypes.STRING,
+  status: { type: DataTypes.STRING, defaultValue: 'processing' },
+});
+
+const OrderDevice = sequelize.define<OrderDevice>('order_device', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  orderId: DataTypes.INTEGER,
+  deviceId: DataTypes.INTEGER,
+  price: DataTypes.FLOAT,
+  quantity: DataTypes.INTEGER,
 });
 
 interface Type
@@ -234,6 +274,12 @@ Cart.belongsTo(User);
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
+User.hasMany(Order);
+Order.belongsTo(User);
+
+OrderDevice.hasOne(Device);
+Device.belongsToMany(Order, { through: OrderDevice });
+
 Device.hasMany(Rating);
 Rating.belongsTo(Device);
 Rating.hasOne(Device);
@@ -266,4 +312,6 @@ export {
   Rating,
   TypeBrand,
   DeviceInfo,
+  Order,
+  OrderDevice,
 };

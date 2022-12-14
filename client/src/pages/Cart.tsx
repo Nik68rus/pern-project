@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useState, useEffect, useContext, useCallback } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { Context } from '../App';
 import CartItem from '../components/CartItem';
 import { getCart } from '../http/cartAPI';
@@ -8,10 +8,13 @@ import { getBrands, getDevices, getTypes } from '../http/deviceAPI';
 import { ICartDevice, ICartPosition } from '../types/device';
 import classes from './Cart.module.scss';
 import cx from 'classnames';
+import { postOrder } from '../http/orderAPI';
+import { toast } from 'react-toastify';
 
 const Cart = observer(() => {
   const [loading, setLoading] = useState(true);
   const { cart, device } = useContext(Context);
+  const [details, setDetails] = useState('');
 
   const getDeviceById = useCallback(
     (id: number) => {
@@ -90,6 +93,13 @@ const Cart = observer(() => {
     );
   };
 
+  const handleOrder = async () => {
+    await postOrder(details, getNormalizedCart());
+    toast('Заказ создан');
+    setDetails('');
+    cart.setItems([]);
+  };
+
   if (loading) {
     return (
       <Container>
@@ -118,7 +128,12 @@ const Cart = observer(() => {
         />
       ))}
       <h4 className={cx('mt-3', classes.total)}>Итого: {getTotal()} руб.</h4>
-      <Button className="mt-5" variant="outline-dark">
+      <Form.Control
+        placeholder="Введите информацию для доставки заказа"
+        value={details}
+        onChange={(e) => setDetails(e.target.value)}
+      />
+      <Button className="mt-5" variant="outline-dark" onClick={handleOrder}>
         Оформить заказ
       </Button>
     </Container>
