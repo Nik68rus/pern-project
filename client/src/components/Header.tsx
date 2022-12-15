@@ -42,6 +42,14 @@ const Header = observer(() => {
             <Button
               variant="outline-light"
               onClick={() => {
+                navigate(RoutePath.ORDERS);
+              }}
+            >
+              Заказы
+            </Button>
+            <Button
+              variant="outline-light"
+              onClick={() => {
                 user.setAuth(false);
                 user.setUser(null);
                 navigate(RoutePath.LOGIN);

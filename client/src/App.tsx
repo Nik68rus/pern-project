@@ -82,7 +82,7 @@ const App = observer(() => {
       <Router>
         <Header />
         <AppRouter />
-        <ToastContainer />
+        <ToastContainer position="bottom-right" />
       </Router>
     </Context.Provider>
   );

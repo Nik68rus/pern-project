@@ -6,3 +6,10 @@ export interface IOrder {
   status: TOrderStatus;
   createdAt: Date;
 }
+
+export interface IOrderDevice {
+  id: number;
+  deviceId: number;
+  price: number;
+  quantity: number;
+}

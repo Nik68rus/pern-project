@@ -10,6 +10,7 @@ import classes from './Cart.module.scss';
 import cx from 'classnames';
 import { postOrder } from '../http/orderAPI';
 import { toast } from 'react-toastify';
+import { handleError } from '../helpers';
 
 const Cart = observer(() => {
   const [loading, setLoading] = useState(true);
@@ -94,10 +95,14 @@ const Cart = observer(() => {
   };
 
   const handleOrder = async () => {
-    await postOrder(details, getNormalizedCart());
-    toast('Заказ создан');
-    setDetails('');
-    cart.setItems([]);
+    try {
+      await postOrder(details, getNormalizedCart());
+      toast('Заказ создан');
+      setDetails('');
+      cart.setItems([]);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   if (loading) {

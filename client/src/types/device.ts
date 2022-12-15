@@ -25,3 +25,9 @@ export interface ICartPosition extends IDevice {
   type: string | undefined;
   brand: string | undefined;
 }
+
+export interface IOrderDevice {
+  deviceId: number;
+  price: number;
+  quantity: number;
+}

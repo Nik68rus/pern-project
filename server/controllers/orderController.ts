@@ -12,6 +12,18 @@ interface OrderRequest extends ExtendedRequest {
 }
 
 class OrderController {
+  async getMyOrders(req: ExtendedRequest, res: Response, next: NextFunction) {
+    const user = req.user;
+    if (!user) {
+      return next(ApiError.unauthenticated('Авторизуйтесь!'));
+    }
+
+    try {
+      const orders = await Order.findAll({ where: { userId: user.id } });
+      res.status(200).json({ message: 'ok', payload: orders });
+    } catch (error) {}
+  }
+
   async getAllOrders(req: ExtendedRequest, res: Response, next: NextFunction) {
     try {
       const orders = await Order.findAll();
@@ -40,7 +52,7 @@ class OrderController {
         return next(ApiError.notFound('Заказ не найден!'));
       }
 
-      if (userId !== order.id) {
+      if (userId !== order.userId) {
         return next(ApiError.forbiden('Нет доступа!'));
       }
 
